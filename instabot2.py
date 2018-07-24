@@ -19,11 +19,7 @@ def image_upload():
 
 def following():
     #List of all followers
-    followers = InstagramAPI.getTotalFollowers(my_id)
-    my_follower_list = []
-    for person in followers:
-        my_follower_list.append(person['pk'])
-    print(my_follower_list)
+    my_follower_list = [i['pk'] for i in InstagramAPI.getTotalFollowers(my_id)]
     for id in my_follower_list:
         their_followers = [i['pk'] for i in InstagramAPI.getTotalFollowers(id)]
         for person_to_follow in their_followers:
@@ -34,7 +30,16 @@ def following():
         print()
 
 def unfollowing():
-    pass
+    #list of people following
+    #following = InstagramAPI.getTotalFollowings(my_id)
+    following_id = [i['pk'] for i in InstagramAPI.getTotalFollowings(my_id)]
+    for id in following_id:
+        InstagramAPI.unfollow(id)
+        print('unfollowed: '+str(id))
+        time.sleep(1)
+    print(following_id)
+    #for person in following:
+    #    print(person)
 
 
 def inbox():
@@ -86,5 +91,4 @@ def inbox():
 
 if __name__ == '''__main__''':
     print('Oi')
-    #following()
-    inbox()
+    unfollowing()
